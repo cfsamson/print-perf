@@ -1,4 +1,9 @@
 # Easier print-optimization for Rust
+[![Crates.io](https://img.shields.io/crates/v/print_perf.svg)](https://crates.io/crates/print_perf)
+[![Chrono on docs.rs][docsrs-image]][docsrs]
+
+[docsrs-image]: https://docs.rs/print_perf/badge.svg
+[docsrs]: https://docs.rs/print_perf
 
 You've probably heard of print debugging, but maybe not the lesser known
 member of the print family: print-optimization. 
@@ -16,17 +21,18 @@ Here's an example:
 ```rust
 use print_perf::*;
 use std::time::Duration;
+
 fn add(a: i32, b: i32) -> i32 {
-       std::thread::sleep(Duration::from_millis(100));
-       a + b
+    std::thread::sleep(Duration::from_millis(100));
+    a + b
 }
 
 fn main() {
-let add_p = perf!("add fn");
-let result = add(4, 4);
-add_p.end();
-//     ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
-assert_eq!(result, 8);
+    let add_p = perf!("add fn");
+    let result = add(4, 4);
+    add_p.end();
+        // ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
+    assert_eq!(result, 8);
 }
 ```
 
