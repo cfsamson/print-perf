@@ -4,15 +4,16 @@
 /// but you won't set up everything you need for profiling your entire program
 /// (or you don't have that option in the environment you're working in).
 /// Doing this in Rust requires some boilerplate at the moment, especially if
-/// you want to printi out a easily readable output that you can navigate.
+/// you want to print out an easily readable output that you can navigate.
 /// directly to the relevant lines of code from. This crate aims to make this
 /// easier to do:
 /// Here's an example:
 ///
 /// ```rust
 /// use print_perf::*;
+/// use std::time::Duration;
 /// fn add(a: i32, b: i32) -> i32 {
-///        std::thread::sleep(std::time::Duration::from_millis(100));
+///        std::thread::sleep(Duration::from_millis(100));
 ///        a + b
 /// }
 ///
