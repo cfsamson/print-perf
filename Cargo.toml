@@ -13,8 +13,8 @@ homepage = "https://github.com/cfsamson/print-perf"
 repository = "https://github.com/cfsamson/print-perf"
 readme = "README.md"
 keywords = ["measurement", "perf", "performance", "time", "print"]
-categories = ["Development tools"]
-license = "Unlicensed OR MIT"
+categories = ["development-tools"]
+license = "Unlicense OR MIT"
 
 [dependencies]
 
