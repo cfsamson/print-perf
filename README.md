@@ -14,7 +14,7 @@ easier to do:
 Here's an example:
 
 ```rust
-use perf::*;
+use print_perf::*;
 fn add(a: i32, b: i32) -> i32 {
        std::thread::sleep(std::time::Duration::from_millis(100));
        a + b
@@ -24,7 +24,7 @@ fn main() {
 let add_p = perf!("add fn");
 let result = add(4, 4);
 add_p.end();
-//     ^-- prints: 0.100140446 (add fn) [src/main.rs:9]->[src/main.rs:11]
+//     ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
 assert_eq!(result, 8);
 }
 ```
