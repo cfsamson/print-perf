@@ -21,9 +21,10 @@ Here's an example:
 ```rust
 use print_perf::*;
 use std::time::Duration;
+use std::thread::sleep;
 
 fn add(a: i32, b: i32) -> i32 {
-    std::thread::sleep(Duration::from_millis(100));
+    sleep(Duration::from_millis(100));
     a + b
 }
 
