@@ -22,7 +22,7 @@
 //!     let add_p = perf!("add fn");
 //!     let result = add(4, 4);
 //!     add_p.end();
-//!         // ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
+//!     // ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
 //!
 //!     assert_eq!(result, 8);
 //! }
