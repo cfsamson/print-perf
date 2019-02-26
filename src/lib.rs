@@ -39,7 +39,7 @@
 //!
 //! [stderr]: https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)
 //!
-
+use colored::*;
 /// This is what you get returned from the macro. You probably won't crete this directly.
 pub struct Perf {
     start: std::time::Instant,
@@ -58,10 +58,13 @@ impl Perf {
     pub fn end(&self) {
         let elapsed = self.start.elapsed();
         eprintln!(
-            "{}.{}s ({}) @ {}",
-            elapsed.as_secs(),
-            elapsed.subsec_nanos(),
-            self.ident,
+            "{}{}{} {}{}{} @ {}",
+            elapsed.as_secs().to_string().bold().yellow(),
+            ".".bold().yellow(),
+            elapsed.subsec_nanos().to_string().bold().yellow(),
+            "(".bold().yellow(),
+            self.ident.bold().yellow(),
+            ")".bold().yellow(),
             self.start_line,
         );
     }
