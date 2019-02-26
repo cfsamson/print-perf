@@ -62,7 +62,7 @@ impl Perf {
             "{}{}{} {}{}{} @ {}",
             elapsed.as_secs().to_string().bold().yellow(),
             ".".bold().yellow(),
-            elapsed.subsec_nanos().to_string().bold().yellow(),
+            format!("{:09}", elapsed.subsec_nanos()).bold().yellow(),
             "(".bold().yellow(),
             self.ident.bold().yellow(),
             ")".bold().yellow(),
@@ -97,6 +97,17 @@ mod tests {
         // to see output use: cargo test -- --nocapture
         let p = perf!("add fn");
         let _result = add(4, 4);
+        p.end();
+    }
+
+    fn add_fast(a: i32, b: i32) -> i32 {
+        a + b
+    }
+    #[test]
+    fn fast_example() {
+        // to see output use: cargo test -- --nocapture
+        let p = perf!("add fn");
+        let _result = add_fast(4, 4);
         p.end();
     }
 }
