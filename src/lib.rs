@@ -41,7 +41,7 @@
 //! [stderr]: https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)
 //!
 use colored::*;
-/// This is what you get returned from the macro. You probably won't crete this directly.
+/// This is what you get returned from the macro. You probably won't create this directly.
 pub struct Perf {
     start: std::time::Instant,
     start_line: String,
