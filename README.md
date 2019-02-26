@@ -13,7 +13,7 @@ but you won't set up everything you need for profiling your entire program
 
 
 Doing this in Rust requires some boilerplate at the moment, especially if 
-you want to print out an easily readable output that you can navigate  
+you want to print out an easily readable output that you can navigate 
 directly to the relevant lines of code from. This crate aims to make this
 easier to do:
 Here's an example:
