@@ -57,7 +57,7 @@ impl Perf {
     }
     pub fn end(&self) {
         let elapsed = self.start.elapsed();
-        if cfg!(all(target_os="windows", not(debug_assert))) {
+        if cfg!(all(target_os="windows", not(debug_assertions))) {
              eprintln!(
             "{}.{} ({}) @ {}",
             elapsed.as_secs(),
