@@ -1,6 +1,6 @@
 [package]
 name = "print_perf"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Carl Fredrik Samson <cf@samson.no>"]
 edition = "2018"
 description = """
@@ -8,7 +8,7 @@ Ergonomic print optimization for Rust. This crate will provide a struct and a
 helper macro that you can use to measure and print out the time between two 
 points in your code.
 """
-documentation = "https://docs.rs/print_perf/0.1.7/print_perf/"
+documentation = "https://docs.rs/print_perf"
 homepage = "https://github.com/cfsamson/print-perf"
 repository = "https://github.com/cfsamson/print-perf"
 readme = "README.md"

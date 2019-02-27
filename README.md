@@ -42,6 +42,10 @@ fn main() {
 
 I don't think super-small convenience code bits like this should pull inn any dependencies so I try to avoid them. This crate currently depends on no other crates.
 
+# Known bugs
+
+The coloring will not output correctly on all windows terminals. The coloring is deactivated on windows release builds.
+
 # Stability
 
 The exact output printed by this macro should not be relied upon
