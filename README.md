@@ -40,7 +40,7 @@ fn main() {
 
 # Dependecies
 
-I don't think super-small convenience code like this should pull inn any dependencies so I try to avoid them. This crate currently depends on no other crates.
+I don't think super-small convenience code bits like this should pull inn any dependencies so I try to avoid them. This crate currently depends on no other crates.
 
 # Stability
 
