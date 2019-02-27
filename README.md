@@ -19,7 +19,8 @@ easier to do:
 Here's an example:
 
 ```rust
-use print_perf::*;
+use print_perf::*; 
+// or explicit print_perf::{perf, Perf};
 use std::time::Duration;
 use std::thread::sleep;
 
