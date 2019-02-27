@@ -57,15 +57,26 @@ impl Perf {
     }
     pub fn end(&self) {
         let elapsed = self.start.elapsed();
-        eprintln!(
+        if cfg!(all(target_os="windows", release)) {
+             eprintln!(
+            "{}.{} ({})[0m @ {}",
+            elapsed.as_secs(),
+            format!("{:09}", elapsed.subsec_nanos()),
+            self.ident,
+            self.start_line,
+        );
+        } else {
+             eprintln!(
             "\x1B[33m\x1B[1m{}.{} ({})\x1B[0m @ {}",
             elapsed.as_secs(),
             format!("{:09}", elapsed.subsec_nanos()),
             self.ident,
             self.start_line,
         );
+        }
     }
 }
+
 
 /// Se crate documentation for example on how to use
 #[macro_export]
