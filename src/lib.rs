@@ -40,7 +40,6 @@
 //!
 //! [stderr]: https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)
 //!
-use colored::*;
 /// This is what you get returned from the macro. You probably won't create this directly.
 pub struct Perf {
     start: std::time::Instant,
@@ -59,13 +58,10 @@ impl Perf {
     pub fn end(&self) {
         let elapsed = self.start.elapsed();
         eprintln!(
-            "{}{}{} {}{}{} @ {}",
-            elapsed.as_secs().to_string().bold().yellow(),
-            ".".bold().yellow(),
-            format!("{:09}", elapsed.subsec_nanos()).bold().yellow(),
-            "(".bold().yellow(),
-            self.ident.bold().yellow(),
-            ")".bold().yellow(),
+            "\x1B[33m\x1B[1m{}.{} ({})\x1B[0m @ {}",
+            elapsed.as_secs(),
+            format!("{:09}", elapsed.subsec_nanos()),
+            self.ident,
             self.start_line,
         );
     }

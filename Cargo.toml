@@ -17,5 +17,4 @@ categories = ["development-tools"]
 license = "Unlicense OR MIT"
 
 [dependencies]
-colored = "1.7.0"
 
