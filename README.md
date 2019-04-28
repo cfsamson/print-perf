@@ -38,6 +38,26 @@ fn main() {
 }
 ```
 
+You can also add split times like this:
+```rust
+ use print_perf::*;
+# use std::time::Duration;
+# use std::thread::sleep;
+fn add(a: i32, b: i32) -> i32 {
+   sleep(Duration::from_millis(100));
+   a + b
+}
+
+fn main() {
+    let p = perf!("add fn");
+    let _result = add(4, 4);
+    p.split("add");
+    let _div = _result / 2;
+    p.split("div");
+    p.end();
+}
+```
+
 # Dependecies
 
 I don't think super-small convenience code bits like this should pull inn any dependencies so I try to avoid them. This crate currently depends on no other crates.

@@ -17,7 +17,7 @@
 //!    sleep(Duration::from_millis(100));
 //!    a + b
 //! }
-//!
+//! 
 //! fn main() {
 //!     let add_p = perf!("add fn");
 //!     let result = add(4, 4);
@@ -25,6 +25,27 @@
 //!     // ^-- prints: 0.100140446 (add fn) @ [src/main.rs:9]
 //!
 //!     assert_eq!(result, 8);
+//! }
+//! ```
+//! 
+//! # Example with splits
+//! 
+//! ```rust
+//!  use print_perf::*;
+//! # use std::time::Duration;
+//! # use std::thread::sleep;
+//! fn add(a: i32, b: i32) -> i32 {
+//!    sleep(Duration::from_millis(100));
+//!    a + b
+//! }
+//! 
+//! fn main() {
+//!     let p = perf!("add fn");
+//!     let _result = add(4, 4);
+//!     p.split("add");
+//!     let _div = _result / 2;
+//!     p.split("div");
+//!     p.end();
 //! }
 //! ```
 //!
@@ -55,28 +76,49 @@ impl Perf {
             ident,
         }
     }
+
+    pub fn split(&self, msg: &str) {
+        let elapsed = self.start.elapsed();
+        if cfg!(all(target_os = "windows", not(debug_assertions))) {
+            eprintln!(
+                "{}.{} ({} - {})",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                msg,
+            );
+        } else {
+            eprintln!(
+                "\x1B[33m\x1B[1m{}.{} ({} - {})\x1B[0m",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                msg
+            );
+        }
+    }
+
     pub fn end(&self) {
         let elapsed = self.start.elapsed();
-        if cfg!(all(target_os="windows", not(debug_assertions))) {
-             eprintln!(
-            "{}.{} ({}) @ {}",
-            elapsed.as_secs(),
-            format!("{:09}", elapsed.subsec_nanos()),
-            self.ident,
-            self.start_line,
-        );
+        if cfg!(all(target_os = "windows", not(debug_assertions))) {
+            eprintln!(
+                "{}.{} ({} - end) @ {}",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                self.start_line,
+            );
         } else {
-             eprintln!(
-            "\x1B[33m\x1B[1m{}.{} ({})\x1B[0m @ {}",
-            elapsed.as_secs(),
-            format!("{:09}", elapsed.subsec_nanos()),
-            self.ident,
-            self.start_line,
-        );
+            eprintln!(
+                "\x1B[33m\x1B[1m{}.{} ({} - end)\x1B[0m @ {}",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                self.start_line,
+            );
         }
     }
 }
-
 
 /// Se crate documentation for example on how to use
 #[macro_export]
@@ -104,6 +146,16 @@ mod tests {
         // to see output use: cargo test -- --nocapture
         let p = perf!("add fn");
         let _result = add(4, 4);
+        p.end();
+    }
+
+    #[test]
+    fn split_test() {
+        let p = perf!("add fn");
+        let _result = add(4, 4);
+        p.split("add");
+        let _div = _result / 2;
+        p.split("div");
         p.end();
     }
 
