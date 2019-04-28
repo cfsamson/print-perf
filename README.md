@@ -16,7 +16,12 @@ Doing this in Rust requires some boilerplate at the moment, especially if
 you want to print out an easily readable output that you can navigate 
 directly to the relevant lines of code from. This crate aims to make this
 easier to do:
-Here's an example:
+
+You can use two methods to measure the elapsed time:
+1. Lap: measures elapsed time from the last lap (or the starting point if it's the first lap)
+2. Split: measures elapsed time from the starting point where you call it in your code
+
+Here's two examples:
 
 ```rust
 use print_perf::*; 

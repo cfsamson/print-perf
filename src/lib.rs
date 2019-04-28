@@ -48,6 +48,10 @@
 //!     p.end();
 //! }
 //! ```
+//! 
+//! You can use two methods to measure the elapsed time:
+//! 1. Lap: measures elapsed time from the last lap (or the starting point if it's the first lap)
+//! 2. Split: measures elapsed time from the starting point where you call it in your code
 //!
 //! # Stability
 //!
@@ -66,6 +70,8 @@ pub struct Perf {
     start: std::time::Instant,
     start_line: String,
     ident: String,
+    lap: Option<std::time::Instant>,
+    lap_n: Option<usize>,
 }
 
 impl Perf {
@@ -74,9 +80,49 @@ impl Perf {
             start: std::time::Instant::now(),
             start_line,
             ident,
+            lap: None,
+            lap_n: None,
         }
     }
 
+    /// Gives the time elapsed from the last lap (or from the starting point of there has been no previous laps). 
+    /// You can have as many laps as you want. The message is printed with the measurement to identify where the 
+    /// measurement was done.
+    pub fn lap(&mut self, msg: &str) {
+        let base = match self.lap {
+            Some(l) => l,
+            None => self.start,
+        };
+
+        let lap_n = self.lap_n.unwrap_or(1);
+
+        let elapsed = base.elapsed();
+        if cfg!(all(target_os = "windows", not(debug_assertions))) {
+            eprintln!(
+                "{}.{} ({} - {} - lap {})",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                msg,
+                lap_n,
+            );
+        } else {
+            eprintln!(
+                "\x1B[33m\x1B[1m{}.{} ({} - {} - lap {})\x1B[0m",
+                elapsed.as_secs(),
+                format!("{:09}", elapsed.subsec_nanos()),
+                self.ident,
+                msg,
+                lap_n,
+            );
+        }
+
+        self.lap = Some(std::time::Instant::now());
+        self.lap_n = Some(lap_n + 1);
+    }
+
+    /// Prints the time from the starting point where the method is called. In contrast to `#lap()` this always shows
+    /// the time elapsed from the start.
     pub fn split(&self, msg: &str) {
         let elapsed = self.start.elapsed();
         if cfg!(all(target_os = "windows", not(debug_assertions))) {
@@ -98,7 +144,8 @@ impl Perf {
         }
     }
 
-    pub fn end(&self) {
+    /// Shows the end time and consumes self so the timer can not be used any further.
+    pub fn end(self) {
         let elapsed = self.start.elapsed();
         if cfg!(all(target_os = "windows", not(debug_assertions))) {
             eprintln!(
@@ -156,6 +203,16 @@ mod tests {
         p.split("add");
         let _div = _result / 2;
         p.split("div");
+        p.end();
+    }
+
+    #[test]
+    fn lap_test() {
+        let mut p = perf!("add fn");
+        let _result = add(4, 4);
+        p.lap("add");
+        let _div = _result / 2;
+        p.lap("div");
         p.end();
     }
 
